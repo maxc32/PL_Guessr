@@ -5,7 +5,9 @@ Guess where each Premier League Stadium is located on a map.
 Using Google Maps API
 
 Can traverse using Google street view.
-![image](https://github.com/user-attachments/assets/74fa4c4d-bd42-4386-87e4-837c4b38b026)
+![image](https://github.com/user-attachments/assets/6136c4a6-6090-44e4-bc11-70c7199c8516)
+
 
 Shows Distance from correct location
-![image](https://github.com/user-attachments/assets/697c3260-ac59-4039-a8a5-7e13b53e0437)
+![image](https://github.com/user-attachments/assets/87d9b8ba-bc9e-4995-a42a-42841901402c)
+
