@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/styles.css">
+<head>
+    <link rel="icon" href="/images/pl.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%; 
+        }
+    </style> 
+</head>
+<body>
+    <h1>Result</h1>
+    <p>You were <strong><%= distance %> km</strong> off!</p>
+    <p>You gained <strong><%= scoreGained %></strong> points this round.</p>
+    <p>Your total score is now <strong><%= score %></strong>.</p>
+
+    <div id="map"></div>
+
+    <form action="/next" method="POST">
+        <button type="submit">Next Location</button>
+    </form>
+
+    <!-- Google Maps API Loading Script -->
+    <script>
+        // Function to load Google Maps API dynamically
+        function loadGoogleMaps() {
+            const script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDRimKAK-h4D-eP2wbUsA8ffVc0GD6iZzY&callback=initMap";
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+        }
+
+        window.onload = loadGoogleMaps;
+
+        // Define initMap function to initialize the map
+        function initMap() {
+            const actualLat = <%= lat %>;
+            const actualLng = <%= lng %>;
+            const userLat = <%= userLat %>;
+            const userLng = <%= userLng %>; // ejs formatting
+
+            const mapElement = document.getElementById("map");
+
+            if (!mapElement) {
+                console.error('Map container is missing or not initialized properly');
+                return;
+            }
+
+            const map = new google.maps.Map(mapElement, {
+                zoom: 5,
+                center: { lat: (actualLat + userLat) / 2, lng: (actualLng + userLng) / 2 }, // Center map between the two locations, so map isnt too zoomed out
+                disableDefaultUI: true
+            });
+
+            // Marker for the actual stadium location
+            const actualMarker = new google.maps.Marker({
+                position: { lat: actualLat, lng: actualLng },
+                map: map,
+                title: "Actual Location"
+            });
+
+            // Marker for the user's guessed location
+            const userMarker = new google.maps.Marker({
+                position: { lat: userLat, lng: userLng },
+                map: map,
+                title: "Your Guess"
+            });
+
+            // Draw a line between the two points (actual and guessed location)
+            const line = new google.maps.Polyline({
+                path: [
+                    { lat: actualLat, lng: actualLng },
+                    { lat: userLat, lng: userLng }
+                ],
+                geodesic: true,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            line.setMap(map);
+        }
+    </script>
+</body>
+</html>
