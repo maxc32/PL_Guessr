@@ -13,3 +13,7 @@ Can traverse using Google street view.
 Shows Distance from correct location
 ![image](https://github.com/user-attachments/assets/87d9b8ba-bc9e-4995-a42a-42841901402c)
 
+
+- - Example - -
+![plguessrvid - Made with Clipchamp (1)](https://github.com/user-attachments/assets/faa9270e-9af7-49c1-aa33-b5f874475059)
+
