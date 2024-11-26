@@ -16,4 +16,4 @@ Shows Distance from correct location
 
 - - Example - -
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/r99cWlQ" data-context="false" ><a href="//imgur.com/a/r99cWlQ"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+![Alt Text](https://imgur.com/a/r99cWlQ)
