@@ -15,5 +15,5 @@ Shows Distance from correct location
 
 
 - - Example - -
-![plguessrvid - Made with Clipchamp (1)](https://github.com/user-attachments/assets/faa9270e-9af7-49c1-aa33-b5f874475059)
 
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/r99cWlQ" data-context="false" ><a href="//imgur.com/a/r99cWlQ"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
