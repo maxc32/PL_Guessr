@@ -14,6 +14,5 @@ Shows Distance from correct location
 ![image](https://github.com/user-attachments/assets/87d9b8ba-bc9e-4995-a42a-42841901402c)
 
 
-- - Example - -
-
-![Alt Text](https://imgur.com/a/r99cWlQ)
+- - Example Video - -
+https://imgur.com/a/r99cWlQ
