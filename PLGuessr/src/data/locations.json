@@ -1,0 +1,23 @@
+[
+    { "id": 1, "name": "Emirates Stadium", "lat": 51.555, "lng": -0.108611, "team": "Arsenal" },
+    { "id": 2, "name": "Villa Park", "lat": 52.5086695, "lng": -1.8867347, "team": "Aston Villa" },
+    { "id": 3, "name": "The Amex", "lat": 50.861822, "lng": -0.083278, "team": "Brighton" },
+    { "id": 4, "name": "Craven Cottage", "lat": 51.4746605, "lng": -0.2202864, "team": "Fulham" },
+    { "id": 5, "name": "Vitality Stadium", "lat": 50.7348415, "lng": -1.8398848, "team": "Bournemouth" },
+    { "id": 6, "name": "Stamford Bridge", "lat": 51.4807279, "lng": -0.1907347, "team": "Chelsea" },
+    { "id": 7, "name": "Selhurst Park", "lat": 51.3973575, "lng": -0.084819, "team": "Crystal Palace" },
+    { "id": 8, "name": "Goodison Park", "lat": 53.4389333, "lng": -2.9675363, "team": "Everton" },
+    { "id": 9, "name": "Brentford Community Stadium", "lat": 51.4909936, "lng": -0.2921511, "team": "Brentford" },
+    { "id": 10, "name": "Portman Road", "lat": 52.055061, "lng": 1.144831, "team": "Ipswich" },
+    { "id": 11, "name": "King Power Stadium", "lat": 52.620278, "lng": -1.142222, "team": "Leicester" },
+    { "id": 12, "name": "Anfield", "lat": 53.430819, "lng": -2.960828, "team": "Liverpool" },
+    { "id": 13, "name": "Etihad Stadium", "lat": 53.482989, "lng": -2.200292, "team": "Manchester City" },
+    { "id": 14, "name": "Old Trafford", "lat": 53.4634293, "lng": -2.2893304, "team": "Manchester United" },
+    { "id": 15, "name": "St James' Park", "lat": 54.9752694, "lng": -1.6243969, "team": "Newcastle" },
+    { "id": 16, "name": "City Ground", "lat": 52.94, "lng": -1.132778, "team": "Nottingham Forest" },
+    { "id": 17, "name": "St Mary's Stadium", "lat": 50.9059221, "lng": -1.3893148, "team": "Southampton" },
+    { "id": 18, "name": "Tottenham Hotspur Stadium", "lat": 51.6032181, "lng": -0.0678845, "team": "Tottenham" },
+    { "id": 19, "name": "London Stadium", "lat": 51.5372748, "lng": -0.0188774, "team": "West Ham" },
+    { "id": 20, "name": "Molineux Stadium", "lat": 52.5900924, "lng": -2.1319613, "team": "Wolves" }
+  ]
+  
