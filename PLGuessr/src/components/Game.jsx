@@ -1,19 +1,121 @@
 import { useEffect, useState, useRef } from "react";
-import { haversineDistance } from "../utils/haversine"; // Import your haversine function
-import "./Game.css"; // Import the CSS file
+import { motion, AnimatePresence } from "framer-motion";
+import { haversineDistance } from "../utils/haversine";
+import "./Game.css";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const DEFAULT_CENTER = { lat: 54.0, lng: -2.0 }; // Center on the UK for PL stadiums
+const DEFAULT_CENTER = { lat: 54.0, lng: -2.0 };
 
-// Helper function to shuffle the locations
 const shuffleLocations = (locations) => {
   return [...locations].sort(() => Math.random() - 0.5);
+};
+
+const AlertMessage = () => {
+  // Container slides in from off-screen left.
+  const containerVariants = {
+    // FRAMER MOTION different phases of the animation/variants of components
+    initial: { x: "-100vw" },
+    animate: { x: 0, transition: { duration: 0.5 } },
+    exit: {
+      x: "100vw",
+      transition: { delay: 1.5, duration: 1.3, ease: "easeInOut" },
+    },
+  };
+
+  const textVariants = {
+    initial: { opacity: 1, clipPath: "inset(0 0 0 0)" },
+    animate: { opacity: 1, clipPath: "inset(0 0 0 0)" },
+    exit: {
+      opacity: 0,
+      clipPath: "inset(0 0 0 100%)",
+      transition: { duration: 0.5, ease: "easeInOut" },
+    },
+  };
+
+  const imageVariants = {
+    initial: { x: 0 },
+    animate: {
+      x: 190,
+      transition: { delay: 2.3, duration: 1.5, ease: "easeInOut" },
+    },
+  };
+
+  const overlayVariants = {
+    initial: { width: 0 },
+    exit: {
+      width: "100%",
+      transition: { duration: 0.5, ease: "easeInOut" },
+    },
+  };
+
+  return (
+    <motion.div // motion.div is a component that animates the div
+      className="alert-container"
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      style={{
+        position: "fixed",
+        top: "20px",
+        left: "40%",
+        zIndex: 1000,
+        width: "300px",
+        borderRadius: "5px",
+        backgroundColor: "#230076",
+        overflow: "visible",
+      }}
+    >
+      <div
+        className="alert-content"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          position: "relative",
+          padding: "10px 10px",
+        }}
+      >
+        {/* Logo image */}
+        <motion.img
+          src="/images/VARlogo.svg"
+          alt="Icon"
+          variants={imageVariants}
+          initial="initial"
+          animate="animate"
+          style={{
+            width: "80px",
+            height: "auto",
+            marginRight: "10px",
+            position: "relative",
+            zIndex: 2,
+            backgroundColor: "#230076",
+          }}
+        />
+
+        {/* Alert text */}
+        <motion.span
+          variants={textVariants}
+          initial="initial"
+          exit="exit"
+          style={{
+            color: "white",
+            fontWeight: "bold",
+            flex: 1,
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          Please make a guess first!
+        </motion.span>
+      </div>
+    </motion.div>
+  );
 };
 
 const Game = ({ locations, score, setScore }) => {
   const streetViewRef = useRef(null);
   const guessMapRef = useRef(null);
-  const resultMapRef = useRef(null); // Result map ref
+  const resultMapRef = useRef(null);
   const guessMarkerRef = useRef(null);
 
   const [guess, setGuess] = useState(null);
@@ -22,16 +124,13 @@ const Game = ({ locations, score, setScore }) => {
   const [distance, setDistance] = useState(null);
   const [newScore, setNewScore] = useState(null);
   const [stadiumIndex, setStadiumIndex] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
 
-  // Lazy initialization: Shuffle locations only once when the component mounts
   const [randomizedLocations, setRandomizedLocations] = useState(() => {
-    if (locations && locations.length > 0) {
-      return shuffleLocations(locations);
-    }
-    return [];
+    return locations && locations.length ? shuffleLocations(locations) : [];
   });
 
-  // Initialize maps and StreetView when stadiumIndex or randomizedLocations change
   useEffect(() => {
     if (!locations || locations.length === 0) {
       console.error("No locations available for the game.");
@@ -60,7 +159,6 @@ const Game = ({ locations, score, setScore }) => {
     };
 
     const initMaps = () => {
-      // Initialize Street View
       if (streetViewRef.current) {
         new window.google.maps.StreetViewPanorama(streetViewRef.current, {
           position: { lat: stadium.lat, lng: stadium.lng },
@@ -71,17 +169,15 @@ const Game = ({ locations, score, setScore }) => {
         });
       }
 
-      // Initialize Guess Map
       if (guessMapRef.current) {
         const newGuessMap = new window.google.maps.Map(guessMapRef.current, {
           center: DEFAULT_CENTER,
-          zoom: 6,
+          zoom: 5,
           fullscreenControl: false,
           disableDefaultUI: true,
         });
         setGuessMap(newGuessMap);
 
-        // Add click listener for making a guess
         newGuessMap.addListener("click", function (event) {
           if (!event.latLng) {
             console.error("Invalid latLng value", event);
@@ -106,15 +202,18 @@ const Game = ({ locations, score, setScore }) => {
     loadGoogleMaps();
   }, [locations, stadiumIndex, randomizedLocations]);
 
-  // Display the result map with markers and a line when the modal is visible
   useEffect(() => {
-    if (modalVisible && resultMapRef.current && guess && randomizedLocations[stadiumIndex]) {
+    if (
+      modalVisible &&
+      resultMapRef.current &&
+      guess &&
+      randomizedLocations[stadiumIndex]
+    ) {
       const stadium = randomizedLocations[stadiumIndex];
-      console.log(stadium);
       let zoomLevel = 10;
-      if (distance > 200) zoomLevel = 5;
-      else if (distance > 50) zoomLevel = 6;
-      else if (distance > 10) zoomLevel = 9;
+      if (distance > 200) zoomLevel = 4;
+      else if (distance > 50) zoomLevel = 5;
+      else if (distance > 10) zoomLevel = 8;
 
       const resultMap = new window.google.maps.Map(resultMapRef.current, {
         center: stadium,
@@ -123,21 +222,16 @@ const Game = ({ locations, score, setScore }) => {
         disableDefaultUI: true,
       });
 
-      // Marker for the player's guess
       new window.google.maps.Marker({
         position: guess,
         map: resultMap,
         title: "Your Guess",
       });
-
-      // Marker for the actual stadium
       new window.google.maps.Marker({
         position: stadium,
         map: resultMap,
         title: "Actual Stadium",
       });
-
-      // Draw the line between guess and actual stadium
       const newLine = new window.google.maps.Polyline({
         path: [guess, stadium],
         geodesic: true,
@@ -145,16 +239,18 @@ const Game = ({ locations, score, setScore }) => {
         strokeOpacity: 1.0,
         strokeWeight: 2,
       });
-
       newLine.setMap(resultMap);
     }
   }, [modalVisible, guess, randomizedLocations, stadiumIndex, distance]);
 
-  // Handle form submission for a guess
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!guess) {
-      alert("Please make a guess first!");
+      setShowAlert(true);
+      // Allow time for the alert’s entry and exit animations.
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2500);
       return;
     }
 
@@ -164,33 +260,45 @@ const Game = ({ locations, score, setScore }) => {
       return;
     }
 
-    const dist = haversineDistance(guess.lat, guess.lng, stadium.lat, stadium.lng);
+    const dist = haversineDistance(
+      guess.lat,
+      guess.lng,
+      stadium.lat,
+      stadium.lng
+    );
     setDistance(dist);
-
     const newGameScore = +(Math.max(0, 100 - dist).toFixed(2));
     setScore(score + newGameScore);
     setNewScore(newGameScore);
-
     setModalVisible(true);
   };
 
-  // Handle moving to the next stadium, or restarting the game if at the end of the list
+  // When no more stadiums remain, show a game over overlay instead of automatically restarting.
+  // Deals with what happens when the user clicks "Next Stadium" after the last stadium.
   const handleNextStadium = () => {
     if (stadiumIndex + 1 < randomizedLocations.length) {
       setStadiumIndex(stadiumIndex + 1);
+      setGuess(null);
+      setModalVisible(false);
+      if (guessMarkerRef.current) {
+        guessMarkerRef.current.setMap(null);
+        guessMarkerRef.current = null;
+      }
     } else {
-      alert("Game Over! Restarting...");
-      // Reset the stadium index
-      setStadiumIndex(0);
-      // Re-shuffle the locations for a new game
-      setRandomizedLocations(shuffleLocations(locations));
+      // Game over: show the overlay with final score and restart option.
+      setGameOver(true);
+      setModalVisible(true);
     }
+  };
 
-    // Reset guess and modal state
-    setGuess(null);
+  const handleRestart = () => {
+    // Restart the game: reset index, score, game over flag, and other state.
+    setStadiumIndex(0);
+    setRandomizedLocations(shuffleLocations(locations));
+    setScore(0);
     setModalVisible(false);
-
-    // Remove old guess marker
+    setGameOver(false);
+    setGuess(null);
     if (guessMarkerRef.current) {
       guessMarkerRef.current.setMap(null);
       guessMarkerRef.current = null;
@@ -201,37 +309,72 @@ const Game = ({ locations, score, setScore }) => {
     <div className="game-container">
       <h1 className="game-title">
         <img
-          src="/images/pl.png"
+          src="/images/PLlogo.svg"
           alt="Premier League Logo"
           width="50"
           height="50"
           style={{ marginRight: "10px" }}
         />
-        Guess the Premier League Stadium Location
+        PLGuessr
       </h1>
       <div ref={streetViewRef} className="street-view"></div>
+
       <div ref={guessMapRef} className="guess-map"></div>
+
       <form onSubmit={handleSubmit} className="game-form">
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-btn">
           Submit Guess
         </button>
       </form>
-      <h3 className="game-score">Score: {score}</h3>
 
+      {/* Alert message */}
+      <AnimatePresence>
+        {showAlert && <AlertMessage />}
+      </AnimatePresence>
+
+      {/* Result overlay , if game over display final score and restart option, otherwise display guess and score */}
       {modalVisible && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Result</h2>
-            <p>Distance to the actual stadium: {distance?.toFixed(2)} km</p>
-            <p>Your Score: {newScore}</p>
-            <div
-              ref={resultMapRef}
-              className="result-map"
-              style={{ width: "100%", height: "300px" }}
-            ></div>
-            <button onClick={handleNextStadium} className="next-stadium-button">
-              Next Stadium
-            </button>
+        <div className="overlay">
+          <div className="overlay-card">
+            {gameOver ? (
+              <>
+                <div className="overlay-card-title">Game Over!</div>
+                <div className="overlay-card-body">
+                  <div className="match">
+                    <span className="team">Final Score</span>
+                    <span className="score">{score.toFixed(2)}</span>
+                  </div>
+                  <button onClick={handleRestart} className="next-stadium-btn">
+                    Restart
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="overlay-card-title">Your Guess</div>
+                <div className="overlay-card-body">
+                  <div className="match">
+                    <span className="team">Score</span>
+                    <span className="score">{newScore.toFixed(2)}</span>
+                  </div>
+                  <div className="match">
+                    <span className="team">Overall Score</span>
+                    <span className="score">{score.toFixed(2)}</span>
+                  </div>
+                  {/* Result map */}
+                  <div ref={resultMapRef} className="result-map"></div>
+                  <div className="attendance">
+                    Distance: {distance.toFixed(2)}km
+                    <p>
+                      ({stadiumIndex + 1}/{randomizedLocations.length})
+                    </p>
+                  </div>
+                  <button onClick={handleNextStadium} className="next-stadium-btn">
+                    Next Stadium
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
