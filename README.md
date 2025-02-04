@@ -22,4 +22,4 @@ https://imgur.com/a/r99cWlQ
 Different animations for guessing before selecting a location, for score and game over. 
 Using Framer Motion and CSS animations.
 
-MOTD CSS animations adapted from DeadlyByte.
+MOTD CSS animations adapted from DeadlyByte, license included in repo.

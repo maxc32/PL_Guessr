@@ -311,9 +311,8 @@ const Game = ({ locations, score, setScore }) => {
         <img
           src="/images/PLlogo.svg"
           alt="Premier League Logo"
-          width="50"
-          height="50"
-          style={{ marginRight: "10px" }}
+          width="100"
+          height="100"
         />
         PLGuessr
       </h1>

@@ -45,8 +45,8 @@ body, #root {
   flex: 3;
   min-height: 200px;
   background-color: #f0f0f0;
-  border: 2px solid #000000; 
-  border-radius: 8px;
+  border: 1px solid #000000; 
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -55,8 +55,8 @@ body, #root {
   flex: 2;
   min-height: 150px;
   background-color: #f0f0f0;
-  border: 2px solid #000000; 
-  border-radius: 8px;
+  border: 1px solid #000000; 
+  border-radius: 6px;
   overflow: hidden;
 }
 
