@@ -9,11 +9,13 @@ Using Google Maps API, street view and satellite view.
 20 teams in 24/25 season, randomly shuffled stadium locations and score based on distance from correct location.
 
 Can traverse using Google street view.
-![image](https://github.com/user-attachments/assets/6136c4a6-6090-44e4-bc11-70c7199c8516)
+![image](https://github.com/user-attachments/assets/62da4e04-4d98-4790-898e-33fd511b3943)
+
 
 
 Shows Distance from correct location
-![image](https://github.com/user-attachments/assets/87d9b8ba-bc9e-4995-a42a-42841901402c)
+![image](https://github.com/user-attachments/assets/827e6707-566f-4ffa-8117-72fd987d3b3e)
+
 
 
 - - Example Video - -
