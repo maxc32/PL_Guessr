@@ -19,7 +19,7 @@ Shows Distance from correct location
 
 
 - - Example Video - -
-https://imgur.com/a/r99cWlQ
+[https://imgur.com/a/r99cWlQ](https://imgur.com/a/DemQmb9)
 
 Different animations for guessing before selecting a location, for score and game over. 
 Using Framer Motion and CSS animations.
