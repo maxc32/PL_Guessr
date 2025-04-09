@@ -8,8 +8,23 @@ body, #root {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  background-color: #ffffff;
+  /*background: linear-gradient(-60deg, #c45dc6, #38003c, #70acac); */
+  background-color: #1c1a1a;
+  background-size: 400% 300%;
+  animation: gradient 30s ease infinite;
   overflow: hidden;
+}
+
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }
 
 /* Game container */
@@ -23,7 +38,7 @@ body, #root {
   gap: 10px;
   box-sizing: border-box;
   align-items: center;
-  background-color: #ffffff;
+  background-color: opqaue;
 }
 
 /* Title styling */
@@ -41,23 +56,31 @@ body, #root {
 
 /* Map containers */
 .street-view {
+  margin-top: 100px;
   width: 100%;
   flex: 3;
   min-height: 200px;
   background-color: #f0f0f0;
-  border: 1px solid #000000; 
-  border-radius: 6px;
+  border: 2px solid #ffffff; 
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .guess-map {
-  width: 40%;
-  flex: 2;
-  min-height: 150px;
-  background-color: #f0f0f0;
-  border: 1px solid #000000; 
-  border-radius: 6px;
-  overflow: hidden;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 150px;
+  height: 150px;
+  transition: width 0.3s ease, height 0.3s ease;
+  z-index: 10;
+  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.guess-map:hover {
+  width: 300px;
+  height: 300px;
 }
 
 /* Form styling */
@@ -72,26 +95,29 @@ body, #root {
 
 /* Submit button styling */
 .submit-btn {
-  background-color: #ffffff;
-  color: #000000;
-  padding: 15px 30px;
+  background-color: #3D195B;
+  color: white;
   border: none;
   border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 14px;
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  width: auto; 
-  min-width: 120px; 
-  white-space: nowrap;
-  transition: background-color 0.3s ease;
-  border: 2px solid #000000; 
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submit-btn:hover {
-  background-color: #5b34a9;
-  color: white;
+  background-color: #00ff85;
+  transform: scale(1.05);
+}
+
+.submit-btn:active {
+  transform: scale(0.95);
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 /* Overlay styling */
@@ -102,7 +128,7 @@ body, #root {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 999;
+  z-index: 2000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,8 +146,8 @@ body, #root {
 
 .overlay-card-title {
   animation: expand-card-title 0.8s forwards;
-  background-color: #FFD130;
-  color: #2B0400;
+  background-color: #3D195B;
+  color: #ffffff;
   font-weight: bold;
   padding: 12px 0;
   margin: 0;
@@ -145,8 +171,21 @@ body, #root {
   text-align: center;
 }
 
+.match .team {
+  color: #000000;
+}
+
+.match .score {
+  background-color: #3D195B;
+  color: #ffffff;
+  padding: 6px 12px;
+  margin: 0 8px;
+  border-radius: 4px;
+  font-size: 1.2em;
+}
+
 .score {
-  background-color: #FFD130;
+  background-color: #3D195B;
   padding: 6px 12px;
   margin: 0 8px;
   border-radius: 4px;
@@ -174,8 +213,8 @@ body, #root {
 
 /* Next stadium button styling */
 .next-stadium-btn {
-  background-color: #FFD130;
-  color: #2B0400;
+  background-color: #38003c;
+  color: #ffffff;
   font-weight: bold;
   border: none;
   border-radius: 2px;
@@ -189,7 +228,7 @@ body, #root {
 }
 
 .next-stadium-btn:hover {
-  background-color: #ffc400;
+  background-color: #38003c;
 }
 
 /* Keyframes */
@@ -206,4 +245,201 @@ body, #root {
 @keyframes reveal-card-body {
   from { max-height: 0; }
   to { max-height: 500px; }
+}
+
+/* Banner styling */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 15px 20px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(95, 193, 65, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #ffffff;
+}
+
+.banner-logo {
+  width: 80px;
+  height: auto;
+  margin-right: 5px;
+}
+
+.banner-title {
+  color: #3D195B;
+  font-size: 28px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Timer styling - updated for banner placement */
+.timer {
+  background-color: #3D195B;
+  color: white;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-weight: bold;
+  min-width: 80px;
+  text-align: center;
+  margin-left: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.timer.active {
+  background-color: #3D195B;
+}
+
+.timer:not(.active) {
+  background-color: #999;
+}
+
+.timer-text {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Score Overlay - Always visible in top left corner */
+.score-overlay {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.score-overlay-card {
+  width: 210px;
+  background-color: #FFF;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+}
+
+.score-overlay-card-title {
+  background-color: #3D195B;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 6px 0;
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.score-overlay-card-body {
+  background-color: #FFF;
+  color: #2B0400;
+  padding: 8px 12px;
+}
+
+.score-overlay-card-body .match {
+  text-align: center;
+}
+
+.score-overlay-card-body .match .team {
+  color: #000000;
+}
+
+.score-overlay-card-body .match .score {
+  background-color: #3D195B;
+  color: #ffffff;
+  padding: 6px 12px;
+  margin: 0 8px;
+  border-radius: 4px;
+  font-size: 1.2em;
+}
+
+/* Leaderboard styling */
+.leaderboard {
+  padding: 15px;
+  text-align: center;
+}
+
+.leaderboard h3 {
+  color: #3D195B;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+.leaderboard-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.leaderboard-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  margin: 5px 0;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.leaderboard-entry .rank {
+  font-weight: bold;
+  color: #3D195B;
+  width: 30px;
+}
+
+.leaderboard-entry .name {
+  flex: 1;
+  text-align: left;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+.leaderboard-entry .score {
+  background-color: #3D195B;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  min-width: 60px;
+}
+
+/* Name input form styling */
+.name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+
+.name-input {
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #3D195B;
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: #00ff85;
+}
+
+.submit-name-btn {
+  background-color: #3D195B;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-name-btn:hover {
+  background-color: #00ff85;
 }

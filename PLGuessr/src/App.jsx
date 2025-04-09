@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Game from './components/Game';
+import Tutorial from './components/Tutorial';
 
 const App = () => {
   const [score, setScore] = useState(0);
   const [locations, setLocations] = useState([]);
+  const [showTutorial, setShowTutorial] = useState(true);
 
   // Fetch locations from the backend
   useEffect(() => {
@@ -13,33 +15,23 @@ const App = () => {
       .catch((error) => console.error('Error fetching locations:', error));
   }, []);
 
-  // Update score in the backend
-  const updateScore = (newScore) => {
-    fetch('http://localhost:5000/api/update-score', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ score: newScore }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error('Error updating score:', error));
+  const handleTutorialComplete = () => {
+    setShowTutorial(false);
   };
-//
+
   return (
-    <div>
-      {locations.length > 0 ? (
-        <Game
-          locations={locations}
-          score={score}
-          setScore={(newScore) => {
-            setScore(newScore);
-            updateScore(newScore);
-          }}
-        />
-      ) : (
-        <p>Loading locations...</p>
+    <div className="app-container">
+      {showTutorial && <Tutorial onComplete={handleTutorialComplete} />}
+      {!showTutorial && (
+        locations.length > 0 ? (
+          <Game
+            locations={locations}
+            score={score}
+            setScore={setScore}
+          />
+        ) : (
+          <p>Loading stadiums...</p>
+        )
       )}
     </div>
   );

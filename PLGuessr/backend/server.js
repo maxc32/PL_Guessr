@@ -8,7 +8,7 @@ const PORT = 5000;
 app.use(cors()); // Enables CORS for front to backend communication
 app.use(express.json()); // Parse JSON request bodies
 
-// Serve static files (e.g., locations.json)
+// Serve static files (locations.json)
 app.use(express.static(path.join(__dirname, 'data')));
 
 // API endpoint to fetch locations
