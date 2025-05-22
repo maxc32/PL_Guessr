@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { haversineDistance } from "../utils/haversine";
+import Confetti from 'react-confetti';
 import "./Game.css";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -162,6 +163,8 @@ const Game = ({ locations, score, setScore, onReset }) => {
   const [gameOver, setGameOver] = useState(false);
   const [timeLeft, setTimeLeft] = useState(TIMER_DURATION);
   const [isTimerActive, setIsTimerActive] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiKey, setConfettiKey] = useState(0);
 
   const [randomizedLocations, setRandomizedLocations] = useState(() => {
     return locations && locations.length ? shuffleLocations(locations) : [];
@@ -230,7 +233,7 @@ const Game = ({ locations, score, setScore, onReset }) => {
             });
           }
 
-          setGuess(event.latLng.toJSON());
+          handleGuess(event.latLng.toJSON());
         });
       }
     };
@@ -351,11 +354,25 @@ const Game = ({ locations, score, setScore, onReset }) => {
       setScore(score + newGameScore);
       setNewScore(newGameScore);
       
+      // Show confetti for good guesses (less than 10km)
+      if (dist < 10) {
+        setShowConfetti(true);
+        setConfettiKey(prev => prev + 1);
+        setTimeout(() => setShowConfetti(false), 5000); // Hide after 5 seconds
+      }
+      
       // Set modal visible after a short delay to ensure state updates are processed
       setTimeout(() => {
         setModalVisible(true);
       }, 100);
     }
+  };
+
+  const handleGuess = (position) => {
+    if (!isTimerActive) return;
+
+    // Just set the guess position without showing confetti
+    setGuess(position);
   };
 
   const handleSubmit = (e) => {
@@ -388,6 +405,14 @@ const Game = ({ locations, score, setScore, onReset }) => {
     const newGameScore = +(Math.max(0, 100 - dist).toFixed(2));
     setScore(score + newGameScore);
     setNewScore(newGameScore);
+    
+    // Show confetti for good guesses (less than 10km)
+    if (dist < 10) {
+      setShowConfetti(true);
+      setConfettiKey(prev => prev + 1);
+      setTimeout(() => setShowConfetti(false), 5000); // Hide after 5 seconds
+    }
+    
     setModalVisible(true);
   };
 
@@ -428,6 +453,25 @@ const Game = ({ locations, score, setScore, onReset }) => {
   };
   return (
     <div className="game-container">
+      {showConfetti && (
+        <Confetti
+          key={confettiKey}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={200}
+          gravity={0.3}
+          initialVelocityY={20}
+          colors={['#3D195B', '#00ff85', '#ffffff']}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            pointerEvents: 'none',
+            zIndex: 1000
+          }}
+        />
+      )}
       {/* Banner */}
       <div className="banner">
         <img
