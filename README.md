@@ -8,18 +8,22 @@ Using Google Maps API, street view and satellite view.
 
 20 teams in 24/25 season, randomly shuffled stadium locations and score based on distance from correct location.
 
-Can traverse using Google street view.
-![image](https://github.com/user-attachments/assets/62da4e04-4d98-4790-898e-33fd511b3943)
+Tutorial to show how to play
+![image](https://github.com/user-attachments/assets/43738256-057b-428f-b554-647b38ff3d28)
 
+
+Can traverse using Google street view.
+![image](https://github.com/user-attachments/assets/c6699a8c-d4d4-4399-b9e5-22e0c5e57767)
 
 
 Shows Distance from correct location
-![image](https://github.com/user-attachments/assets/827e6707-566f-4ffa-8117-72fd987d3b3e)
+![image](https://github.com/user-attachments/assets/3e587a9a-ad75-40ff-8c90-ccd2d56e5e72)
+
 
 
 
 - - Example Video - -
-[https://imgur.com/a/r99cWlQ](https://imgur.com/a/DemQmb9)
+[https://imgur.com/a/Jv7z1V8](https://imgur.com/a/Jv7z1V8)
 
 Different animations for guessing before selecting a location, for score and game over. 
 Using Framer Motion and CSS animations.
