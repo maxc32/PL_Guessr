@@ -2,7 +2,7 @@ MUST INCLUDE API KEY BY CREATING .ENV FILE WITH  VITE_GOOGLE_MAPS_API_KEY=YOUR_A
 
 React frontend and an Express backend
 
-Guess where each Premier League Stadium is located on a map.
+Guess where each Premier League Stadium is located on a map within 30 seconds.
 
 Using Google Maps API, street view and satellite view.
 
